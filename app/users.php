@@ -46,6 +46,7 @@ class Users {
     }
 
     function logout($f3) {
+        session_start();
         session_destroy();
         $f3->reroute('/users/login');
     }

@@ -14,7 +14,7 @@ class Cases {
         }
         else
         {
-            $this->error();
+            $this->error($f3);
         }
     }
 
@@ -48,7 +48,7 @@ class Cases {
         }
         else
         {
-            $this->error();
+            $this->error($f3);
         }
     }
 
@@ -64,7 +64,7 @@ class Cases {
         }
         else
         {
-            $this->error();
+            $this->error($f3);
         }
     }
 
@@ -79,7 +79,7 @@ class Cases {
         else
         {
 
-            $this->error();
+            $this->error($f3);
         }
 
     }

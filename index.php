@@ -1,17 +1,12 @@
 <?php
 
 $f3=require('lib/base.php');
-
 $f3->set('DEBUG',2);
 $f3->set('UI','ui/');
 $f3->set('AUTOLOAD','app/');
+$f3->config('config.ini');
+$f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') . ';port=3306;dbname=' . $f3->get('db_name') , $f3->get('db_user'),$f3->get('db_pass')));             
 
-//DB Credentials; move these to a config file
-$f3->set('db_host','localhost');
-$f3->set('db_user','root');
-$f3->set('db_pass','likes69');
-$f3->set('db_name','test');
-$f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') . ';port=3306;dbname=test', $f3->get('db_user'),$f3->get('db_pass'))); 
 $f3->route('GET /',
 	function($f3) {
         $f3->reroute('/users/login');

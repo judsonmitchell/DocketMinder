@@ -6,10 +6,10 @@ class Cases {
         if ($f3->get('SESSION.isLoggedIn'))
         {
             $db = $f3->get('DB');
-            $f3->set('cases',new DB\SQL\Mapper($db,'cases'));
+            $f3->set('cases',new DB\SQL\Mapper($db,'docketminder_cases'));
             $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.username'))));
             $f3->set('content','cases.html');
-            $f3->set('title','Your Cases');
+            $f3->set('title','Docketminder - Your Cases');
             echo Template::instance()->render('main.html');
         }
         else
@@ -24,7 +24,7 @@ class Cases {
         {
             //Add case data to db
             $db = $f3->get('DB');
-            $cases = new DB\SQL\Mapper($db,'cases');
+            $cases = new DB\SQL\Mapper($db,'docketminder_cases');
             $cases->copyFrom('POST');
             $url = 'http://www.opcso.org/dcktmstr/666666.php?&docase=' . $cases->number;
             $cases->url = $url;
@@ -57,7 +57,7 @@ class Cases {
         if ($f3->get('SESSION.isLoggedIn'))
         {
             $db = $f3->get('DB');
-            $cases = new DB\SQL\Mapper($db,'cases');
+            $cases = new DB\SQL\Mapper($db,'docketminder_cases');
             $cases->load(array('id=?',$params['id']));
             $cases->erase(); 
             echo "Case Deleted";
@@ -72,7 +72,7 @@ class Cases {
         if ($f3->get('SESSION.isLoggedIn'))
         {
             $db = $f3->get('DB');
-            $f3->set('cases',new DB\SQL\Mapper($db,'cases'));
+            $f3->set('cases',new DB\SQL\Mapper($db,'docketminder_cases'));
             $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.username'))));
             echo Template::instance()->render('case_table_partial.html');
         }

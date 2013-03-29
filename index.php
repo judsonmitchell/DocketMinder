@@ -12,10 +12,11 @@ $f3->route('GET /',
         $f3->reroute('/users/login');
     }
 );
-
+//user routes
 $f3->route('POST /users/login_user','Users->login_user');
 $f3->route('POST /users/add','Users->add');
 $f3->route('GET /users/@action','Users->@action');
+//case routes
 $f3->route('GET|POST /cases/@action','Cases->@action');
 $f3->route('GET /cases/@action/@id','Cases->@action');
 $f3->route('GET /opcso/@casenum',

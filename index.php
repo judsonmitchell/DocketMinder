@@ -1,0 +1,34 @@
+<?php
+
+$f3=require('lib/base.php');
+
+$f3->set('DEBUG',2);
+$f3->set('UI','ui/');
+$f3->set('AUTOLOAD','app/');
+
+//DB Credentials; move these to a config file
+$f3->set('db_host','localhost');
+$f3->set('db_user','root');
+$f3->set('db_pass','likes69');
+$f3->set('db_name','test');
+$f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') . ';port=3306;dbname=test', $f3->get('db_user'),$f3->get('db_pass'))); 
+$f3->route('GET /',
+	function($f3) {
+        $f3->reroute('/users/login');
+    }
+);
+
+$f3->route('POST /users/login_user','Users->login_user');
+$f3->route('POST /users/add','Users->add');
+$f3->route('GET /users/@action','Users->@action');
+$f3->route('GET|POST /cases/@action','Cases->@action');
+$f3->route('GET /cases/@action/@id','Cases->@action');
+$f3->route('GET /opcso/@casenum',
+    function($f3){
+        $DM = new DocketMaster('http://www.opcso.org/dcktmstr/666666.php?&docase=' . $f3->get('PARAMS.casenum'));
+        $DefendantsBlock = $DM->getDefendantBlock();
+        $defendants = $DM->parseDefendantBlock($DefendantsBlock);
+        echo $defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName();
+        if (count($defendants) > 1){echo " et. al.";}
+    });
+$f3->run();

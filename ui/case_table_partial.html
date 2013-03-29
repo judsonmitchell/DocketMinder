@@ -1,0 +1,16 @@
+<table class="table table-striped table-hover">
+    <thead>
+        <tr><td>Case Number</td><td>Name</td><td class="hidden-phone">Date Tracked</td><td>Last Changed</td><td></td></tr>
+    </thead>
+    <tbody>
+        <repeat group="{{ @CASES }}" value="{{ @item }}">
+        <tr>
+            <td><a href="{{ @item.url }}" target="_new">{{ @item->number }}</a></td>
+            <td>{{ @item.name }}</td>
+            <td class="hidden-phone">{{ @item.date_tracked }}</td>
+            <td class="hidden-phone">{{ @item.last_changed }}</td>
+            <td><a class="btn btn-mini delete" href="#" data-id="{{ @item.id }}" ><i class="icon-trash"></i> Delete</a></td>
+        </tr>
+        </repeat>
+    </tbody>
+</table>

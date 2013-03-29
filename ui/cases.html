@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+    <h1>{{ @SESSION.username }}'s DocketMinder</h1>
+    </div>
+    
+    <div class="row">
+    <a class="btn btn-success add"><i class="icon-plus-sign icon-white"></i>Track a New Case</a>
+    <form class="form-inline new-case" name="new_case">
+        <input type="text" name="number" class="input-small" placeholder="Case Number">
+        <input type="text" name="name"  class="input-large" placeholder="Case Name" >
+        <a class="btn btn-mini add_case" href="#"><i class="icon-ok-sign"></i>Add</a>
+        &nbsp &nbsp
+        <a class="btn btn-mini cancel" href="#"><i class="icon-remove"></i>Cancel</a>
+    </form>
+    <h3>We're curently tracking these cases for you:</h3>
+    <span class="table_ph">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr><td>Case Number</td><td>Name</td><td class="hidden-phone">Date Tracked</td><td>Last Changed</td><td></td></tr>
+            </thead>
+            <tbody>
+                <repeat group="{{ @CASES }}" value="{{ @item }}">
+                <tr>
+                    <td><a href="{{ @item.url }}" target="_new">{{ @item->number }}</a></td>
+                    <td>{{ @item.name }}</td>
+                    <td class="hidden-phone">{{ @item.date_tracked }}</td>
+                    <td class="hidden-phone">{{ @item.last_changed?'-':'0000-00-00 00:00:00' }}</td>
+                    <td><a class="btn btn-mini delete" href="#" data-id="{{ @item.id }}" ><i class="icon-trash"></i> Stop Tracking</a></td>
+                </tr>
+                </repeat>
+            </tbody>
+        </table>
+    </span>
+    </div>
+</div>

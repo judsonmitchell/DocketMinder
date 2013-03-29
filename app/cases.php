@@ -9,6 +9,7 @@ class Cases {
             $f3->set('cases',new DB\SQL\Mapper($db,'docketminder_cases'));
             $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.username'))));
             $f3->set('content','cases.html');
+            $f3->set('header','header.html');
             $f3->set('title','Docketminder - Your Cases');
             echo Template::instance()->render('main.html');
         }

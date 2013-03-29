@@ -20,7 +20,7 @@ class Users {
 
     function login($f3) {
 
-        $f3->mset(array('title'=>'Login','content'=>'login.html','message'=>FALSE));
+        $f3->mset(array('title'=>'Login','header'=>'header.html','content'=>'login.html','message'=>FALSE));
         echo Template::instance()->render('main.html');
 
     }

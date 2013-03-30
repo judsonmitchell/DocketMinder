@@ -1,13 +1,21 @@
 <div class="container">
-    <form class="form-signin" action="add" method="post">
+    <form class="form-signin form-horizontal" action="add" method="post">
     <h2 class="form-signin-heading">Create New Account</h2>
         <check if="{{ @message }}">
             <p><span class="label label-important">{{ @message }}</span></p>
         </check>
-        <input type="text" class="input-block-level" placeholder="Your Name" name="name">
-        <input type="text" class="input-block-level" placeholder="Your Email" name="email">
-        <input type="password" class="input-block-level" placeholder="Password" name="password">
-        <input type="password" class="input-block-level" placeholder="Confirm Password" name="confirm">
+        <div class="control-group">
+            <input type="text" class="input-large required" placeholder="Your Name" name="name">
+        </div>
+        <div class="control-group">
+            <input type="text" class="input-large required email" placeholder="Your Email" name="email">
+        </div>
+        <div class="control-group">
+            <input type="password" class="input-large required" placeholder="Password" id="password" name="password">
+        </div>
+        <div class="control-group">
+            <input type="password" class="input-large required" placeholder="Confirm Password" id="confirm" name="confirm">
+        </div>
         <button class="btn btn-large btn-primary" type="submit">Sign Up</button>
     </form>
 </div>

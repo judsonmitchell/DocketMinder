@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('.table_ph').on('click', 'a.delete', function (event) {
         event.preventDefault();
         var caseid  = $(this).attr('data-id');
-        var row = $(this).closest('tr');
+        //var row = $(this).closest('tr');
         $.ajax({
             url: 'delete' + '/' + caseid,
             success: function (data) {
@@ -71,6 +71,28 @@ $(document).ready(function () {
         else
         {
             $.removeCookie('docketminder_user');
+        }
+    });
+
+    //validate
+    $('form').validate({
+        rules: {confirm: {equalTo: '#password'}},
+        messages: {confirm: 'Password fields must match.'},
+        showErrors: function (errorMap, errorList) {
+            $.each(this.successList, function (index, value) {
+                return $(value).popover('hide');
+            });
+            return $.each(errorList, function (index, value) {
+                var _popover;
+                _popover = $(value.element).popover({
+                    trigger: 'manual',
+                    placement: 'right',
+                    content: value.message,
+                    template: '<div class=\"popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>'
+                });
+                _popover.data('popover').options.content = value.message;
+                return $(value.element).popover('show');
+            });
         }
     });
 });

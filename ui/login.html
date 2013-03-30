@@ -1,18 +1,28 @@
 <div class="container">
     <div class="row">
         <div class="span4 offset4">
-            <form action="login_user" method="post">
+            <form class="form-horizontal" action="login_user" method="post">
             <h2>Please sign in</h2>
                 <check if="{{ @message }}">
                     <p><span class="label label-important">{{ @message }}</span></p>
                 </check>
-                <input type="text" class="input-block-level" placeholder="Email" name="email">
-                <input type="password" class="input-block-level" placeholder="Password" name="password">
-                <label class="checkbox">
-                <input type="checkbox" name="remember" value="remember-me" checked=checked> Remember me
-                </label>
-                <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                <div class="control-group">
+                    <input type="text" class="input-block-level required email" placeholder="Email" name="email">
+                </div>
+                <div class="control-group">
+                    <input type="password" class="input-block-level required" placeholder="Password" name="password">
+                </div>
+                <div class="control-group">
+                    <label class="checkbox">
+                    <input type="checkbox" name="remember" value="remember-me" checked=checked> Remember me
+                    </label>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+                </div>
+                <div class="control-group">
                 <p><a href="signup">New Account</a></p>
+                </div>
             </form>
         </div>
     </div>

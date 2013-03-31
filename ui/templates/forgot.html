@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+            <form class="form-horizontal" action="reset" method="post">
+            <h2>Please provide the email associated with this account:</h2>
+                <check if="{{ @message }}">
+                    <p><span class="label label-important">{{ @message }}</span></p>
+                </check>
+                <div class="control-group">
+                    <input type="text" class="input-block-level required email" placeholder="Email" name="forgot_email">
+                    <span class="help-inline"></span>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-large btn-primary" id="reset_submit" type="submit">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

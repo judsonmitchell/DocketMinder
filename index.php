@@ -2,7 +2,7 @@
 
 $f3=require('lib/base.php');
 $f3->set('DEBUG',2);
-$f3->set('UI','ui/, ui/templates');
+$f3->set('UI','ui/,ui/templates/');
 $f3->set('AUTOLOAD','app/');
 $f3->config('config.ini');
 $f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') .
@@ -16,7 +16,7 @@ $f3->route('GET /',
 //user routes
 $f3->route('POST /users/login_user','Users->login_user');
 $f3->route('POST /users/add','Users->add');
-$f3->route('GET /users/@action','Users->@action');
+$f3->route('GET|POST /users/@action','Users->@action');
 //case routes
 $f3->route('GET|POST /cases/@action','Cases->@action');
 $f3->route('GET /cases/@action/@id','Cases->@action');

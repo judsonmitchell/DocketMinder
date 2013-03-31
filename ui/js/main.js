@@ -1,7 +1,6 @@
 $(document).ready(function () {
 
     //Cases
-
     $('.table_ph').on('click', 'a.delete', function (event) {
         event.preventDefault();
         var caseid  = $(this).attr('data-id');
@@ -94,6 +93,24 @@ $(document).ready(function () {
                 return $(value.element).popover('show');
             });
         }
+    });
+
+    //Users
+    //Forgot password
+    $('input[name="forgot_email"]').blur(function () {
+        $.post('check_email', {'forgot_email': $(this).val()}, function (data) {
+            var serverRepsonse = $.parseJSON(data);
+            var target = $('span.help-inline');
+            if (serverRepsonse.status === 'success') {
+                target.addClass('alert-success');
+                target.html(serverRepsonse.message);
+            }
+            else {
+                target.addClass('alert-error');
+                $('#reset_submit').prop('disabled', true);
+                target.html(serverRepsonse.message);
+            }
+        });
     });
 });
 

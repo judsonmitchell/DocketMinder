@@ -52,4 +52,27 @@ class Users {
         $f3->reroute('/users/login');
     }
 
+    //Password reset methods
+    function reset($f3) {
+
+        $f3->mset(array('title'=>'Forgot Password','header'=>'header.html','content'=>'forgot.html','message'=>FALSE));
+        echo Template::instance()->render('main.html');
+    }
+
+    function check_email($f3) {
+
+        $db = $f3->get('DB');
+        $user=new DB\SQL\Mapper($db,'docketminder_users');
+        if($user->count(array('email=?',$f3->get('POST.forgot_email')))){
+
+            $response = array('status' => 'success','message' => 'This account exists.');
+            echo json_encode($response);
+        }
+        else {
+
+            $response = array('status' => 'fail','message' => 'Sorry, we have no account with that email address.');
+            echo json_encode($response);
+
+        }
+    }
 }

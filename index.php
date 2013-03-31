@@ -2,10 +2,11 @@
 
 $f3=require('lib/base.php');
 $f3->set('DEBUG',2);
-$f3->set('UI','ui/');
+$f3->set('UI','ui/, ui/templates');
 $f3->set('AUTOLOAD','app/');
 $f3->config('config.ini');
-$f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') . ';port=3306;dbname=' . $f3->get('db_name') , $f3->get('db_user'),$f3->get('db_pass')));             
+$f3->set('DB', new DB\SQL('mysql:host='. $f3->get('db_host') .
+';port=3306;dbname=' . $f3->get('db_name') , $f3->get('db_user'),$f3->get('db_pass')));             
 
 $f3->route('GET /',
 	function($f3) {

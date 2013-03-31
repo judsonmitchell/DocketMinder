@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `docketminder_users` (
   `username` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
+  `reset_key` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 

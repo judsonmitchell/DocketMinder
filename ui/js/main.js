@@ -112,5 +112,22 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#reset_submit').click(function (event) {
+        event.preventDefault();
+        $.post('reset_stage', {'forgot_email': $('input[name="forgot_email"]').val()}, function (data) {
+            var serverRepsonse = $.parseJSON(data);
+            var target = $('div.container:eq(1)');
+            if (serverRepsonse.status === 'success') {
+                target.addClass('alert-success');
+                target.html(serverRepsonse.message);
+            }
+            else {
+                target.addClass('alert-error');
+                $('#reset_submit').prop('disabled', true);
+                target.html(serverRepsonse.message);
+            }
+        });
+    });
 });
 

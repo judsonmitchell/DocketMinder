@@ -1,5 +1,5 @@
 <?php
-require('postmark.php');
+require('lib/postmark.php');
 
 //setup database
 try {

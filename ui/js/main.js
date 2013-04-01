@@ -75,7 +75,10 @@ $(document).ready(function () {
 
     //validate
     $('form').validate({
-        rules: {confirm: {equalTo: '#password'}},
+        rules: {
+            confirm: {equalTo: '#password'},
+            password: {minlength: 6}
+        },
         messages: {confirm: 'Password fields must match.'},
         showErrors: function (errorMap, errorList) {
             $.each(this.successList, function (index, value) {

@@ -1,11 +1,11 @@
 <div class="container">
     <form class="form-horizontal" name="password_reset">
-    <h2>Please provide the email associated with this account:</h2>
+    <h5>Please provide the email associated with this account:</h5>
         <check if="{{ @message }}">
             <p><span class="label label-important">{{ @message }}</span></p>
         </check>
         <div class="control-group">
-            <input type="text" class="input-block-level required email" placeholder="Email" name="forgot_email">
+            <input type="text" class="input-large required email" placeholder="Email" name="forgot_email">
             <span class="help-inline"></span>
         </div>
         <div class="control-group">

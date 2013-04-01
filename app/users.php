@@ -59,17 +59,39 @@ class Users {
         echo Template::instance()->render('main.html');
     }
 
+    function check_email($f3) {
+
+        $db = $f3->get('DB');
+        $user=new DB\SQL\Mapper($db,'docketminder_users');
+        if($user->count(array('email=?',$f3->get('POST.forgot_email')))){
+
+            $response = array('status' => 'success','message' => 'Good, this account exists.');
+            echo json_encode($response);
+        }
+        else {
+
+            $response = array('status' => 'fail','message' => 'Sorry, we have no account with that email address.');
+            echo json_encode($response);
+
+        }
+    }
+
     function reset_stage($f3) {
 
         $db = $f3->get('DB');
         $user=new DB\SQL\Mapper($db,'docketminder_users');
         $user->load(array('email=?',$f3->get('POST.forgot_email')));
         $key = $this->gen_key(20);
-        $user->password = '';
         $user->reset_key = $key;
         $user->save();
-        //email
 
+        //email
+        $postmark = new Postmark($f3->get('postmark_key'),$f3->get('postmark_email'));
+        $message = "We have received a request to reset your password on DocketMinder.  To change your password, please visit " . $f3->get('base_url') . "/users/new_password_prompt/" . $key . "\n\n If you did not request this password change, please ignore this email.";
+        $mail = $postmark->to($f3->get('POST.forgot_email'))
+        ->subject('DocketMinder: Reset Your Password')
+        ->plain_message($message)
+        ->send();
 
         //notify
         $message = "Thanks. An email has been sent to <strong>" . $f3->get('POST.forgot_email') . "</strong> with
@@ -80,21 +102,36 @@ class Users {
         echo json_encode($response);
     }
 
-    function check_email($f3) {
+    function new_password_prompt ($f3){
+        $db = $f3->get('DB');
+        $user=new DB\SQL\Mapper($db,'docketminder_users');
+        if($user->count(array('reset_key=?',$f3->get('PARAMS.key')))){
+            $f3->mset(array('title'=>'Forgot Password','header'=>'header.html','content'=>'new_password_prompt.html','message'=>FALSE));
+            echo Template::instance()->render('main.html');
+        }
+        else {
+            $f3->error(404);
+        }
+    }
+
+    function new_password_do ($f3){
 
         $db = $f3->get('DB');
         $user=new DB\SQL\Mapper($db,'docketminder_users');
-        if($user->count(array('email=?',$f3->get('POST.forgot_email')))){
-
-            $response = array('status' => 'success','message' => 'This account exists.');
-            echo json_encode($response);
+        $user->load(array('reset_key=?',$f3->get('POST.reset_key')));
+        if (!$user->dry()) {
+            $user->password = md5($f3->get('POST.password'));
+            $user->reset_key = '';
+            $user->save();
+            $message = 'Password reset successful.';
+            $f3->mset(array('title'=>'Password Reset Successful','header'=>'header.html','content'=>'new_password_success.html','message'=>$message));
+            echo Template::instance()->render('main.html');
         }
         else {
 
-            $response = array('status' => 'fail','message' => 'Sorry, we have no account with that email address.');
-            echo json_encode($response);
-
+            $f3->error(403);
         }
+
     }
 
     function gen_key($length){

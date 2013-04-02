@@ -26,24 +26,25 @@ $(document).ready(function () {
             $('a.add').show();
         });
 
-        //Submit new case
-        $('a.add_case').on('click', function (event) {
-            event.preventDefault();
-            $.post('add', $('form.new-case').serialize(), function (data) {
-                var serverResponse = $.parseJSON(data);
-                var target = $('.message span');
-                if (serverResponse.status === 'success') {
-                    target.addClass('alert-success');
-                }
-                else {
-                    target.addClass('alert-error');
-                }
-                target.html(serverResponse.message).show().fadeOut(3600);
-                $('.table_ph').load('refresh_table');
-                $('form.new-case').hide();
-                $('form.new-case')[0].reset();
-                $('a.add').show();
-            });
+    });
+
+    //Submit new case
+    $('a.add_case').on('click', function (event) {
+        event.preventDefault();
+        $.post('add', $('form.new-case').serialize(), function (data) {
+            var serverResponse = $.parseJSON(data);
+            var target = $('.message span');
+            if (serverResponse.status === 'success') {
+                target.addClass('alert-success');
+            }
+            else {
+                target.addClass('alert-error');
+            }
+            target.html(serverResponse.message).show().fadeOut(3600);
+            $('.table_ph').load('refresh_table');
+            $('form.new-case').hide();
+            $('form.new-case')[0].reset();
+            $('a.add').show();
         });
     });
 

@@ -12,10 +12,22 @@ class Users {
     function add($f3) {
         $db = $f3->get('DB');
         $user = new DB\SQL\Mapper($db,'docketminder_users');
-        $user->copyFrom('POST');
-        $user->password = md5($f3->get('POST.password'));
-        $user->save();
-        $this->login_user($f3);
+        $posted_email = $f3->get('POST.email');
+        //Check for duplicate accounts
+        if ( $user->count(array('email=?', $posted_email)) > 0){
+            $f3->mset(array("title"=>"New Account","content"=>"new_user.html","header"=>"header.html","message"=>"There is
+            already a Docketminder account associated with $posted_email. Did you forget your password?"));
+            echo Template::instance()->render('main.html');
+        }
+        else {
+            //create new account and log user in
+            $user->reset();
+            $user->copyFrom('POST');
+            $user->password = md5($f3->get('POST.password'));
+            $user->find(array('email=?',$user->email));
+            $user->save();
+            $this->login_user($f3);
+        }
 
     }
 

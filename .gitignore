@@ -2,3 +2,4 @@
 *.swp
 tmp/*
 *.ini
+app/files/*.dk

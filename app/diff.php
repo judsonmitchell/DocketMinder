@@ -17,7 +17,7 @@ $result = $q->fetchAll();
 foreach ($result as $r) {
     // $file is our stored version of the docket master
     // $temp_file is file we get now to check for changes
-    $file = 'files/' . $r['id'];
+    $file = 'files/' . $r['id'] . '.dk';
     $temp_file = 'files/' . $r['id'] . "_tmp";
 
     //File should be created at sign up, but if for some reason

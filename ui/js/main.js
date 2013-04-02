@@ -33,14 +33,14 @@ $(document).ready(function () {
         event.preventDefault();
         $.post('add', $('form.new-case').serialize(), function (data) {
             var serverResponse = $.parseJSON(data);
-            var target = $('.message span');
+            var target = $('.message');
             if (serverResponse.status === 'success') {
-                target.addClass('alert-success');
+                target.addClass('alert alert-success');
             }
             else {
-                target.addClass('alert-error');
+                target.addClass('alert alert-error');
             }
-            target.html(serverResponse.message).show().fadeOut(3600);
+            target.html(serverResponse.message).show().delay(4000).fadeOut(400);
             $('.table_ph').load('refresh_table');
             $('form.new-case').hide();
             $('form.new-case')[0].reset();

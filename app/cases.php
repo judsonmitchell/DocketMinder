@@ -38,7 +38,7 @@ class Cases {
             //and http://stackoverflow.com/a/6779804/49359
             exec("php app/get_docket.php -- $cases->number $cases->_id " . $f3->get('path_to_files'). " > /dev/null &");
 
-            $resp = array('status'=>'success','message'=>'Case Added.');
+            $resp = array('status'=>'success','message'=>'<strong>Success!</strong> We are now tracking the case for you.');
             echo json_encode($resp);
 
         }

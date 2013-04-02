@@ -18,7 +18,8 @@
 @media (max-width: 480px) { .test{display:block} }
 
 form.new-case{display:none}
-.message{width:90px;margin:auto;}
+.message_box{width:430px;height:40px;margin:auto;}
+.message{display:none}
 
 
 

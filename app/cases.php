@@ -31,29 +31,16 @@ class Cases {
             $cases->url = $url;
             $cases->tracked_by = $f3->get('SESSION.email');
             $cases->date_tracked = date('Y-m-d H:i:s');
-            //Get a base copy of the docket master for later comparison
-            //do this instead http://stackoverflow.com/a/124557/49359
-            //pass the arguments this way: http://stackoverflow.com/a/6779804/49359
-            //check if curl is installed
-            $ch = curl_init($url);
-            if (!$ch) {
-                $resp = array('status'=>'error','message'=>'Sorry, curl is not installed on your server');
-                die(json_encode($resp));
-            }
-            else {
-                $cases->save();
-                $resp = array('status'=>'success','message'=>'Case Added');
-                echo json_encode($resp);
-            }
-            
-            $fp = fopen('app/files/' . $cases->_id, "w");
-            curl_setopt($ch, CURLOPT_FILE, $fp);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_exec($ch);
-            curl_close($ch);
-            fclose($fp);
+            $cases->save();
 
- 
+            //Get a base copy of the docket master for later comparison
+            //Run the script asynchronously: see http://stackoverflow.com/a/124557/49359
+            //and http://stackoverflow.com/a/6779804/49359
+            exec("php app/get_docket.php -- $cases->number $cases->_id " . $f3->get('path_to_files'). " > /dev/null &");
+
+            $resp = array('status'=>'success','message'=>'Case Added.');
+            echo json_encode($resp);
+
         }
         else
         {

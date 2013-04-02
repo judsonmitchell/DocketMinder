@@ -11,19 +11,17 @@ class Users {
 
     function add($f3) {
         $db = $f3->get('DB');
-        $f3->set('user',new DB\SQL\Mapper($db,'docketminder_users'));
-        $f3->get('user')->copyFrom('POST');
-        $f3->get('user')->password = md5($f3->get('POST.password'));
-        $f3->get('user')->save();
+        $user = new DB\SQL\Mapper($db,'docketminder_users');
+        $user->copyFrom('POST');
+        $user->password = md5($f3->get('POST.password'));
+        $user->save();
         $this->login_user($f3);
 
     }
 
     function login($f3) {
-
         $f3->mset(array('title'=>'Login','header'=>'header.html','content'=>'login.html','message'=>FALSE));
         echo Template::instance()->render('main.html');
-
     }
 
     function login_user($f3) {

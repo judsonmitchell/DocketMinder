@@ -15,7 +15,7 @@ class Users {
         $f3->get('user')->copyFrom('POST');
         $f3->get('user')->password = md5($f3->get('POST.password'));
         $f3->get('user')->save();
-        $f3->reroute('/cases/all');
+        $this->login_user($f3);
 
     }
 

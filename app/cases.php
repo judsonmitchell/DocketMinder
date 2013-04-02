@@ -15,7 +15,7 @@ class Cases {
         }
         else
         {
-            $this->error($f3);
+            $f3->error(401);
         }
     }
 
@@ -44,7 +44,7 @@ class Cases {
         }
         else
         {
-            $this->error($f3);
+            $f3->error(401);
         }
     }
 
@@ -60,7 +60,7 @@ class Cases {
         }
         else
         {
-            $this->error($f3);
+            $f3->error(401);
         }
     }
 
@@ -75,15 +75,8 @@ class Cases {
         else
         {
 
-            $this->error($f3);
+            $f3->error(401);
         }
 
     }
-
-    function error($f3){
-        $f3->set('content','error.html');
-        $f3->set('title','Error');
-        echo Template::instance()->render('main.html');
-    }
-
 }

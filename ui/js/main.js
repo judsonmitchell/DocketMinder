@@ -56,10 +56,12 @@ $(document).ready(function () {
         $.ajax({
             url: '../opcso' + '/' + caseNum,
             beforeSend: function () {
+                $('.message').addClass('alert alert-info').html('Looking up case on OPSO server.  This may take a minute.').show();
                 target.val('Looking up case...');
             },
             success: function (data) {
                 target.val(data);
+
             }
         });
 

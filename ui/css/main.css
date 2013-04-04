@@ -4,24 +4,11 @@
    Author's custom styles
    ========================================================================== */
 
-
-/* Large desktop */
-@media (min-width: 1200px) { .test{display:none} }
- 
-/* Portrait tablet to landscape and desktop */
-@media (min-width: 768px) and (max-width: 979px) { .test{display:none} }
- 
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) { .test{display:none} }
- 
-/* Landscape phones and down */
-@media (max-width: 480px) { .test{display:block} }
-
 form.new-case{display:none}
 .message_box{width:430px;height:40px;margin:auto;}
 .message{display:none}
-.help-text{ color:white;padding: 10px; background-color: #1c9b47; border-radius: 10px;}
-.help-text a {color:white;text-decoration:underline}
+.help-text{ color:#3a87ad;padding: 10px; background-color: #d9edf7;border-color:#bce8f1; border-radius: 10px;}
+.help-text a {color:#3a87ad;text-decoration:underline}
 
 
 

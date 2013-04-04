@@ -1,16 +1,27 @@
 <?php
-//ini_set('display_errors', 1);
-// ini_set('log_errors', 1);
-// ini_set('error_log', dirname(__FILE__) . '/error_log.txt');
-// error_reporting(E_ALL);
+/**
+ * DocketMaster Class
+ * 
+ * @author Grainne O'Neill, modifications by Judson Mitchell
+**/
 
 class DocketMaster  {
 	public $fileArray;
 	public $iterator;// = 0;
+    public $error;
 
 	public function __construct($fileName) {
 		//open the file
-		$this->fileArray = file($fileName);
+        try {
+            $this->fileArray = file($fileName);
+            if (array_search('Session Halted!', $this->fileArray)){
+                throw new Exception("nocase");
+            }
+        }
+        catch (Exception $e) {
+            $this->error =  $e->getMessage();
+        }
+
 		$this->iterator = 0;
 	}
 	public function nextLine($num) {

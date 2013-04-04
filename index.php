@@ -27,10 +27,15 @@ $f3->route('GET /cases/@action/@id','Cases->@action');
 $f3->route('GET /opcso/@casenum',
     function($f3){
         $DM = new DocketMaster('http://www.opcso.org/dcktmstr/666666.php?&docase=' . $f3->get('PARAMS.casenum'));
-        $DefendantsBlock = $DM->getDefendantBlock();
-        $defendants = $DM->parseDefendantBlock($DefendantsBlock);
-        echo $defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName();
-        if (count($defendants) > 1){echo " et. al.";}
+        if ($DM->error){
+            $f3->error(404);
+        }
+        else {
+            $DefendantsBlock = $DM->getDefendantBlock();
+            $defendants = $DM->parseDefendantBlock($DefendantsBlock);
+            echo $defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName();
+            if (count($defendants) > 1){echo " et. al.";}
+        }
     });
 
 //static routes

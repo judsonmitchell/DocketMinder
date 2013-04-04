@@ -23,6 +23,7 @@ $(document).ready(function () {
         $('a.cancel').on('click', function (event) {
             event.preventDefault();
             $('form.new-case').hide();
+            $('form.new-case')[0].reset();
             $('a.add').show();
         });
 
@@ -55,16 +56,35 @@ $(document).ready(function () {
         var target = $(this).next();
         $.ajax({
             url: '../opcso' + '/' + caseNum,
+            timeout: 150000,
             beforeSend: function () {
-                $('.message').addClass('alert alert-info').html('Looking up case on OPSO server.  This may take a minute.').show();
+                $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
                 target.val('Looking up case...');
             },
             success: function (data) {
                 target.val(data);
+                $('.message').hide().removeClass('alert-info');
 
             }
         });
+    });
 
+    //Handle Ajax Errors
+    $(document).ajaxError(function (event, jqxhr, settings, exception) {
+        if (settings.url.indexOf('opcso')) { //if we are calling the url ../opcso/{{case number}}
+            if (jqxhr.status === 404) {
+                $('.message').removeClass('alert-info').addClass('alert alert-error')
+                .html('<a href="#" class="close" data-dismiss="alert">&times;</a><strong>Sorry!</strong> No case found with that number.')
+                .show();
+                $('form input[name="number"]').next().val('');
+            }
+            if (exception === 'timeout') {
+                $('.message').removeClass('alert-info').addClass('alert alert-error')
+                .html('<a href="#" class="close" data-dismiss="alert">&times;</a><strong>Oops!</strong> Can\'t reach OPSO server.  Perhaps it\'s down?.')
+                .show();
+                $('form input[name="number"]').next().val('');
+            }
+        }
     });
 
     //Cookie

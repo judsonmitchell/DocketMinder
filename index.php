@@ -33,4 +33,12 @@ $f3->route('GET /opcso/@casenum',
         if (count($defendants) > 1){echo " et. al.";}
     });
 
+//static routes
+$f3->route('GET /about',
+    function($f3) {
+        $f3->mset(array('title'=>'New Account','content'=>'about.html','header'=>'header.html','message'=>FALSE));
+        echo Template::instance()->render('main.html');
+    }
+
+);
 $f3->run();

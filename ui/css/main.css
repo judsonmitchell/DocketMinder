@@ -20,9 +20,8 @@
 form.new-case{display:none}
 .message_box{width:430px;height:40px;margin:auto;}
 .message{display:none}
-
-
-
+.help-text{ color:white;margin-top: 25%; padding: 10px; background-color: #1c9b47; border-radius: 10px;}
+.help-text a {color:white;text-decoration:underline}
 
 
 

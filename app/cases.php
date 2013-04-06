@@ -12,7 +12,7 @@ class Cases {
     function all($f3) {
         $db = $f3->get('DB');
         $f3->set('cases',new DB\SQL\Mapper($db,'docketminder_cases'));
-        $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.email'))));
+        $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.email')),array('order'=>'id DESC')));
         $f3->set('content','cases.html');
         $f3->set('header','header.html');
         $f3->set('title','Docketminder - Your Cases');
@@ -50,7 +50,7 @@ class Cases {
     function refresh_table($f3){
         $db = $f3->get('DB');
         $f3->set('cases',new DB\SQL\Mapper($db,'docketminder_cases'));
-        $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.email'))));
+        $f3->set('CASES',$f3->get('cases')->find(array('tracked_by=?',$f3->get('SESSION.email')),array('order'=>'id DESC')));
         echo Template::instance()->render('case_table_partial.html');
     }
 }

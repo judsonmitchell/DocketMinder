@@ -66,6 +66,7 @@ $(document).ready(function () {
             success: function (data) {
                 target.val(data);
                 $('.message').hide().removeClass('alert-info');
+                target.removeAttr('disabled');
 
             }
         });

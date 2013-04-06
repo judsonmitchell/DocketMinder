@@ -9,16 +9,16 @@
             <a class="brand" href="{{ @BASE }}/">DocketMinder</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="{{ @BASE }}/about">About</a></li>
+                    <li><a href="{{ @BASE }}/about"><i class="icon-question-sign icon-white"></i> About</a></li>
                     <check if="{{ @SESSION }}">
                         <true>
-                            <li><a href="{{ @BASE }}/users/logout/">Logout</a></li>
+                            <li><a href="{{ @BASE }}/users/settings/"><i class="icon-wrench icon-white"></i> Settings</a></li>
+                            <li><a href="{{ @BASE }}/users/logout/"><i class="icon-share icon-white"></i> Logout</a></li>
                         </true>
                         <false>
-                            <li><a href="{{ @BASE }}/users/logout/">Login</a></li>
+                            <li><a href="{{ @BASE }}/users/logout/"><i class="icon-user icon-white"></i> Login</a></li>
                         </false>
                     </check>
-                    <li><a href="mailto:judsonmitchell@gmail.com?subject=DocketMinder Beta">Beta Testers</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

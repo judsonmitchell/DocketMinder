@@ -92,13 +92,13 @@ $(document).ready(function () {
     //Cookie
     if (typeof $.cookie('docketminder_user') !== 'undefined')
     {
-        $('input[name="username"]').val($.cookie('docketminder_user'));
+        $('input[name="email"]').val($.cookie('docketminder_user'));
     }
 
-    $('form').submit(function () {
+    $('form.login').submit(function () {
         if ($('input[name="remember"]').is(':checked'))
         {
-            $.cookie('docketminder_user', $('input[name="username"]').val(), { expires: 365 });
+            $.cookie('docketminder_user', $('input[name="email"]').val(), { expires: 365 });
         }
         else
         {

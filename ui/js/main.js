@@ -4,7 +4,6 @@ $(document).ready(function () {
     $('.table_ph').on('click', 'a.delete', function (event) {
         event.preventDefault();
         var caseid  = $(this).attr('data-id');
-        //var row = $(this).closest('tr');
         $.ajax({
             url: 'delete' + '/' + caseid,
             success: function (data) {
@@ -166,5 +165,7 @@ $(document).ready(function () {
             }
         });
     });
+
+    //Settings
 });
 

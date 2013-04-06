@@ -5,9 +5,9 @@
    ========================================================================== */
 
 form.new-case{display:none}
-.message_box{width:430px;height:40px;margin:auto;}
+.message_box{width:430px;height:30px;margin:auto;}
 .message{display:none}
-.help-text{ color:#3a87ad;padding: 10px; background-color: #d9edf7;border-color:#bce8f1; border-radius: 10px;}
+.help-text{ color:#3a87ad;padding: 10px; background-color: #d9edf7;border-color:#bce8f1; border-radius: 10px; text-align:center;}
 .help-text a {color:#3a87ad;text-decoration:none;font-weight:bold;}
 .help-text a:hover {color:#3a87ad;text-decoration:underline;font-weight:bold;}
 

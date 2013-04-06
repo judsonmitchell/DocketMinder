@@ -8,8 +8,10 @@ $(document).ready(function () {
         $.ajax({
             url: 'delete' + '/' + caseid,
             success: function (data) {
-                $('.message').html(data).show().fadeOut(1600);
                 $('.table_ph').load('refresh_table');
+                var target = $('.message');
+                target.addClass('alert alert-info');
+                target.html(data).show().delay(4000).fadeOut(400).removeClass('alert-info');
             }
         });
     });

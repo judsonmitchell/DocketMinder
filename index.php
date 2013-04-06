@@ -33,7 +33,7 @@ $f3->route('GET /opcso/@casenum',
         else {
             $DefendantsBlock = $DM->getDefendantBlock();
             $defendants = $DM->parseDefendantBlock($DefendantsBlock);
-            echo $defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName();
+            echo ucwords(strtolower($defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName()));
             if (count($defendants) > 1){echo " et. al.";}
         }
     });

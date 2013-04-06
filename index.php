@@ -38,6 +38,9 @@ $f3->route('GET /opcso/@casenum',
         }
     });
 
+//settings routes
+$f3->route('GET|POST /settings/@action','Settings->@action');
+
 //static routes
 $f3->route('GET /about',
     function($f3) {

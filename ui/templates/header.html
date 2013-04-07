@@ -6,7 +6,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="{{ @BASE }}/">DocketMinder</a>
+            <check if="{{ @SESSION }}">
+                <true>
+                    <a class="brand" href="{{ @BASE }}/cases/all">DocketMinder</a>
+                </true>
+                <false>
+                    <a class="brand" href="{{ @BASE }}/">DocketMinder</a>
+                </false>
+            </check>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li><a href="{{ @BASE }}/about"><i class="icon-question-sign icon-white"></i> About</a></li>

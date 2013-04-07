@@ -107,28 +107,31 @@ $(document).ready(function () {
     });
 
     //validate
-    $('form').validate({
-        rules: {
-            confirm: {equalTo: '#password'},
-            password: {minlength: 6}
-        },
-        messages: {confirm: 'Password fields must match.'},
-        showErrors: function (errorMap, errorList) {
-            $.each(this.successList, function (index, value) {
-                return $(value).popover('hide');
-            });
-            return $.each(errorList, function (index, value) {
-                var _popover;
-                _popover = $(value.element).popover({
-                    trigger: 'manual',
-                    placement: 'right',
-                    content: value.message,
-                    template: '<div class=\"popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>'
+    $('form').each(function () {
+        var form = $(this);
+        form.validate({
+            rules: {
+                confirm: {equalTo: '#password'},
+                password: {minlength: 6}
+            },
+            messages: {confirm: 'Password fields must match.'},
+            showErrors: function (errorMap, errorList) {
+                $.each(this.successList, function (index, value) {
+                    return $(value).popover('hide');
                 });
-                _popover.data('popover').options.content = value.message;
-                return $(value.element).popover('show');
-            });
-        }
+                return $.each(errorList, function (index, value) {
+                    var _popover;
+                    _popover = $(value.element).popover({
+                        trigger: 'manual',
+                        placement: 'right',
+                        content: value.message,
+                        template: '<div class=\"popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>'
+                    });
+                    _popover.data('popover').options.content = value.message;
+                    return $(value.element).popover('show');
+                });
+            }
+        });
     });
 
     //Users

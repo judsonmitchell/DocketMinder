@@ -1,58 +1,70 @@
 <div class="container">
-    <div class="well">
-        <form class="form-horizontal user-data" id="changeUserData" action="change_user_data" method="post">
-            <fieldset>
-            <legend>Your Data</legend>
-            <div class="control-group">
-                <label class="control-label" for="userName">Change Your Name</label>
-                <div class="controls"> 
-                    <input type="text" class="input-large required" id="userName" value="{{ @USER.name }}" name="name">
-                    <span class="help-inline"></span>
-                </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#home" data-toggle="tab">Profile</a></li>
+        <li><a href="#email" data-toggle="tab">Password</a></li>
+    </ul>
+</div>
+<div class="container">
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">
+            <div class="well">
+                <form class="form-horizontal user-data" id="changeUserData" action="change_user_data" method="post">
+                    <fieldset>
+                    <legend>Your Data</legend>
+                    <div class="control-group">
+                        <label class="control-label" for="userName">Change Your Name</label>
+                        <div class="controls"> 
+                            <input type="text" class="input-large required" id="userName" value="{{ @USER.name }}" name="name">
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="userEmail">Change Your Email</label>
+                        <div class="controls"> 
+                            <input type="text" class="input-large required email" value="{{ @USER.email }}" name="email">
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <button class="btn btn-primary" id="ud_submit">Submit Changes</button>
+                    </div>
+                    </fieldset>
+                </form>
             </div>
-            <div class="control-group">
-                <label class="control-label" for="userEmail">Change Your Email</label>
-                <div class="controls"> 
-                    <input type="text" class="input-large required email" value="{{ @USER.email }}" name="email">
-                    <span class="help-inline"></span>
-                </div>
+        </div>
+        <div class="tab-pane" id="email">
+            <div class="well">
+                <form class="form-horizontal" id="changePassword" action="change_password" method="post">
+                    <fieldset>
+                    <legend>Your Password</legend>
+                    <div class="control-group">
+                        <label class="control-label" for="cpw">Current Password</label>
+                        <div class="controls"> 
+                            <input type="password" class="input-large required" id="cpw" placeholder="Current Password" name="password">
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="npw">New Password</label>
+                        <div class="controls"> 
+                            <input type="password" class="input-large required" id="npw" placeholder="New Password" name="new_password">
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="cnpw">Confirm New Password</label>
+                        <div class="controls"> 
+                            <input type="password" class="input-large required" id="cnpw" placeholder="Confirm New Password" name="confirm">
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+        
+                    <div class="control-group">
+                        <button class="btn btn-primary" id="cp_submit">Change Password</button>
+                    </div>
+                    </fieldset>
+                </form>
             </div>
-            <div class="control-group">
-                <button class="btn btn-primary" id="ud_submit">Submit Changes</button>
-            </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="well">
-        <form class="form-horizontal" id="changePassword" action="change_password" method="post">
-            <fieldset>
-            <legend>Your Password</legend>
-            <div class="control-group">
-                <label class="control-label" for="cpw">Current Password</label>
-                <div class="controls"> 
-                    <input type="password" class="input-large required" id="cpw" placeholder="Current Password" name="password">
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="npw">New Password</label>
-                <div class="controls"> 
-                    <input type="password" class="input-large required" id="npw" placeholder="New Password" name="new_password">
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="cnpw">Confirm New Password</label>
-                <div class="controls"> 
-                    <input type="password" class="input-large required" id="cnpw" placeholder="Confirm New Password" name="confirm_new_password">
-                    <span class="help-inline"></span>
-                </div>
-            </div>
- 
-            <div class="control-group">
-                <button class="btn btn-primary">Change Password</button>
-            </div>
-            </fieldset>
-        </form>
+        </div>
     </div>
 </div>

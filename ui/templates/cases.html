@@ -7,7 +7,7 @@
     <a class="btn btn-success add"><i class="icon-plus-sign icon-white"></i>&nbspTrack a New Case</a>
     <form class="form-inline new-case" name="new_case">
         <input type="text" name="number" class="input-small" placeholder="Case No.">
-        <input type="text" name="name"  class="input-large" placeholder="Case Name" disabled=disabled >
+        <input type="text" name="name"  class="input-medium" placeholder="Case Name" disabled=disabled >
         <a class="btn add_case" href="#"><i class="icon-ok-sign"></i> Add</a>
         <a class="btn cancel" href="#"><i class="icon-remove"></i> Cancel</a>
     </form>
@@ -21,6 +21,8 @@
                 <tr><td>Case Number</td><td>Name</td><td class="hidden-phone">Date Tracked</td><td class="hidden-phone">Last Changed</td><td></td></tr>
             </thead>
             <tbody>
+                <check if="{{ @CASES }}">
+                <true>
                 <repeat group="{{ @CASES }}" value="{{ @item }}">
                 <tr>
                     <td><a href="{{ @item.url }}" target="_new">{{ @item->number }}</a></td>
@@ -30,6 +32,11 @@
                     <td><a class="btn btn-mini delete" href="#" data-id="{{ @item.id }}" ><i class="icon-trash"></i> Stop Tracking</a></td>
                 </tr>
                 </repeat>
+                </true>
+                <false>
+                    <tr><td></td><td><p class="alert alert-info">No Cases Tracked Yet</p></td><td></td><td></td></tr>
+                </false>
+                </check>
             </tbody>
         </table>
     </span>

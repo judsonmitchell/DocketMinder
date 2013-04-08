@@ -24,7 +24,7 @@ class Cases {
         $db = $f3->get('DB');
         $cases = new DB\SQL\Mapper($db,'docketminder_cases');
         $cases->copyFrom('POST');
-        $url = 'http://www.opcso.org/dcktmstr/666666.php?&docase=' . $cases->number;
+        $url = 'http://www.opcso.org/dcktmstr/666666.php?&docase=' . preg_replace("/[^0-9,.]/", "", $cases->number);
         $cases->url = $url;
         $cases->tracked_by = $f3->get('SESSION.email');
         $cases->date_tracked = date('Y-m-d H:i:s');

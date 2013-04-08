@@ -51,24 +51,26 @@ $(document).ready(function () {
     });
 
     //Case Name Lookup Magic
-    $('form input[name="number"]').blur(function () {
+    $('form input[name="number"]').keyup(function () {
         var userInput = $(this).val();
         var caseNum = userInput.replace(/\D/g, '');
         var target = $(this).next();
-        $.ajax({
-            url: '../opcso' + '/' + caseNum,
-            timeout: 15000,
-            beforeSend: function () {
-                $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
-                target.val('Looking up case...');
-            },
-            success: function (data) {
-                target.val(data);
-                $('.message').hide().removeClass('alert-info');
-                target.removeAttr('disabled');
+        if (caseNum.length > 5) {
+            $.ajax({
+                url: '../opcso' + '/' + caseNum,
+                timeout: 15000,
+                beforeSend: function () {
+                    $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
+                    target.val('Looking up case...');
+                },
+                success: function (data) {
+                    target.val(data);
+                    $('.message').hide().removeClass('alert-info');
+                    target.removeAttr('disabled');
 
-            }
-        });
+                }
+            });
+        }
     });
 
     //Handle Ajax Errors

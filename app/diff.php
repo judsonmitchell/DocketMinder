@@ -1,5 +1,5 @@
 <?php
-require('lib/postmark.php');
+require('postmark.php');
 
 //setup database
 try {
@@ -11,14 +11,14 @@ catch(PDOException $e)
     }
 
 //loop throught the cases table
-$q = $dbh->prepare("select * from cases");
+$q = $dbh->prepare("select * from docketminder_cases");
 $q->execute();
 $result = $q->fetchAll();
 foreach ($result as $r) {
     // $file is our stored version of the docket master
     // $temp_file is file we get now to check for changes
-    $file = 'files/' . $r['id'] . '.dk';
-    $temp_file = 'files/' . $r['id'] . "_tmp";
+    $file = '/var/www/docketminder/app/files/' . $r['id'] . '.dk';
+    $temp_file = '/var/www/docketminder/app/files/' . $r['id'] . "_tmp";
 
     //File should be created at sign up, but if for some reason
     //not, do it now.
@@ -56,17 +56,18 @@ foreach ($result as $r) {
                 $line = trim($line,">");
             }
             
-            $diff = implode("\n",(array_slice($lines_clean,1,-1)));
+            $diff = implode("\n",(array_slice($lines_clean,1)));
 
             //notify user - use postmark app
-            $user = $dbh->prepare('select email from users where username = ?');
+            $user = $dbh->prepare('select email from docketminder_users where email = ?');
             $user->bindParam(1,$r['tracked_by']);
             $user->execute();
             $u = $user->fetch();
             $case_name = ucwords(strtolower($r['name']));
             $subject = "DocketMinder Change: $case_name";
             $message = "DocketMinder has detected a change in the $case_name case.\n\n"
-            . $diff . "\n\n To view this docket: " . $r['url'];
+            . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings:
+            http://loyolalawtech.org/docketminder";
 
             $postmark = new Postmark("c3dda16b-9ab5-484b-9859-f48cfcc352c5","bot@loyolalawtech.org");
             $mail = $postmark->to($u['email'])
@@ -74,12 +75,12 @@ foreach ($result as $r) {
             ->plain_message($message)
             ->send();
             //update db (tracked date and change date) 
-            $update = $dbh->prepare('UPDATE cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');
+            $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');
         }
         else
         {
             //update db (only track date) 
-            $update = $dbh->prepare('UPDATE cases SET last_tracked = NOW() WHERE id = ?');
+            $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW() WHERE id = ?');
         }
 
         //overwrite the old file with new file

@@ -57,7 +57,7 @@ $(document).ready(function () {
         var target = $(this).next();
         $.ajax({
             url: '../opcso' + '/' + caseNum,
-            timeout: 150000,
+            timeout: 15000,
             beforeSend: function () {
                 $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
                 target.val('Looking up case...');
@@ -82,7 +82,7 @@ $(document).ready(function () {
             }
             if (exception === 'timeout') {
                 $('.message').removeClass('alert-info').addClass('alert alert-error')
-                .html('<a href="#" class="close" data-dismiss="alert">&times;</a><strong>Oops!</strong> Can\'t reach OPSO server.  Perhaps it\'s down?.')
+                .html('<a href="#" class="close" data-dismiss="alert">&times;</a><strong>Oops!</strong> Can\'t reach OPSO server.  Perhaps it\'s down?')
                 .show();
                 $('form input[name="number"]').next().val('');
             }

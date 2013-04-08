@@ -26,6 +26,8 @@ $(document).ready(function () {
             $('form.new-case').hide();
             $('form.new-case')[0].reset();
             $('a.add').show();
+            $('.message').hide();
+            $('[class^=alert-]').removeClass();
         });
 
     });

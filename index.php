@@ -44,7 +44,7 @@ $f3->route('GET|POST /settings/@action','Settings->@action');
 //static routes
 $f3->route('GET /about',
     function($f3) {
-        $f3->mset(array('title'=>'New Account','content'=>'about.html','header'=>'header.html','message'=>FALSE));
+        $f3->mset(array('title'=>'About DocketMinder','content'=>'about.html','header'=>'header.html','message'=>FALSE));
         echo Template::instance()->render('main.html');
     }
 

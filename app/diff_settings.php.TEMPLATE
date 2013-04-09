@@ -1,0 +1,15 @@
+<?php
+
+//DB connection
+$dbhost = "localhost";
+$dbname = "";
+$dbuser = "";
+$dbpass = "";
+
+//Full path to files/ directory with trailing slash
+//E.g., /var/www/docketminder/app/files/
+$path_to_files = "";
+
+//Postmark 
+$postmark_key = "";
+$postmark_email = "";

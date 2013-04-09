@@ -1,9 +1,10 @@
 <?php
 require('postmark.php');
+require('diff_settings.php');
 
 //setup database
 try {
-        $dbh = new PDO("mysql:host=localhost;dbname=test" , 'root', 'likes69');
+        $dbh = new PDO("mysql:host=$dbhost;dbname=$dbname" , "$dbuser", "$dbpass");
     }
 catch(PDOException $e)
     {
@@ -17,8 +18,8 @@ $result = $q->fetchAll();
 foreach ($result as $r) {
     // $file is our stored version of the docket master
     // $temp_file is file we get now to check for changes
-    $file = '/var/www/docketminder/app/files/' . $r['id'] . '.dk';
-    $temp_file = '/var/www/docketminder/app/files/' . $r['id'] . "_tmp";
+    $file = "$path_to_files" . $r['id'] . ".dk";
+    $temp_file = "$path_to_files" . $r['id'] . "_tmp";
 
     //File should be created at sign up, but if for some reason
     //not, do it now.
@@ -68,7 +69,7 @@ foreach ($result as $r) {
             $message = "DocketMinder has detected an update to the $case_name docket.\n\n"
             . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
 
-            $postmark = new Postmark("c3dda16b-9ab5-484b-9859-f48cfcc352c5","bot@loyolalawtech.org");
+            $postmark = new Postmark("$postmark_key","$postmark_email");
             $mail = $postmark->to($u['email'])
             ->subject($subject)
             ->plain_message($message)

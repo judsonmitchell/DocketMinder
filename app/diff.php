@@ -64,10 +64,9 @@ foreach ($result as $r) {
             $user->execute();
             $u = $user->fetch();
             $case_name = ucwords(strtolower($r['name']));
-            $subject = "DocketMinder Change: $case_name";
-            $message = "DocketMinder has detected a change in the $case_name case.\n\n"
-            . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings:
-            http://loyolalawtech.org/docketminder";
+            $subject = "DocketMinder Update: $case_name";
+            $message = "DocketMinder has detected an update to the $case_name docket.\n\n"
+            . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
 
             $postmark = new Postmark("c3dda16b-9ab5-484b-9859-f48cfcc352c5","bot@loyolalawtech.org");
             $mail = $postmark->to($u['email'])

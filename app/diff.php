@@ -11,6 +11,12 @@ catch(PDOException $e)
         echo $e->getMessage();
     }
 
+//set some variables for logging
+$cases_checked = 0;
+$changes_detected = 0;
+$errors = 0;
+$time_start = microtime(true);
+
 //loop throught the cases table
 $q = $dbh->prepare("select * from docketminder_cases");
 $q->execute();
@@ -23,13 +29,18 @@ foreach ($result as $r) {
 
     //File should be created at sign up, but if for some reason
     //not, do it now.
-    if(!file_exists($file))//this needs to be id, not case number
+    if(!file_exists($file))
     {
         $ch = curl_init($r['url']);
         $fp = fopen($file, "w");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_exec($ch);
+        if(curl_errno($ch)){
+            $errors++;
+            continue; //just give up on this one for today, go to next case
+        }
         curl_close($ch);
         fclose($fp);
     }
@@ -39,7 +50,13 @@ foreach ($result as $r) {
         $fp = fopen($temp_file, "w");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_exec($ch);
+        if(curl_errno($ch)){
+            $errors++;
+            $cases_checked++;
+            continue; //give up on this one for today, go to next case
+        }
         curl_close($ch);
         fclose($fp);
 
@@ -76,6 +93,7 @@ foreach ($result as $r) {
             ->send();
             //update db (tracked date and change date) 
             $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');
+            $changes_detected++;
         }
         else
         {
@@ -88,5 +106,17 @@ foreach ($result as $r) {
 
         $update->bindParam(1,$r['id']);
         $update->execute();
+        $cases_checked++;
     }
+
+    //Find execution time
+    $time_end = microtime(true);
+    $execution_time = ($time_end - $time_start)/60;
+
+    //Write log file
+    $fp = fopen('log', "a");
+    $date = date('n/j/Y g:i A');
+    $message =  "Diff finished on $date in " . round($execution_time,2) . " minutes.  $cases_checked cases checked, $changes_detected changes detected, $errors errors\n";
+    fwrite($fp,$message);
+    fclose($fp);
 }

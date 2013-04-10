@@ -44,7 +44,7 @@ class Cases {
         $cases = new DB\SQL\Mapper($db,'docketminder_cases');
         $cases->load(array('id=?',$params['id']));
         $cases->erase(); 
-        echo "Case Deleted";
+        echo "<strong>Removed</strong> No longer tracking case.";
     }
 
     function refresh_table($f3){

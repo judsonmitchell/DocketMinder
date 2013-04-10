@@ -44,7 +44,8 @@ class Cases {
         $cases = new DB\SQL\Mapper($db,'docketminder_cases');
         $cases->load(array('id=?',$params['id']));
         $cases->erase(); 
-        echo "<strong>Removed</strong> No longer tracking case.";
+        unlink($f3->get('path_to_files') . '/' . $params['id'] . '.dk');
+        echo "<strong>Removed!</strong> No longer tracking case.";
     }
 
     function refresh_table($f3){

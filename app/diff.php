@@ -63,9 +63,10 @@ foreach ($result as $r) {
         $lines = array();
         exec("diff $file $temp_file",$lines); 
 
-        //Now remove the first four items from the lines array; docket master 
+        //Now remove the first six items from the lines array; docket master 
         //gives you a new time every time docket is called, creating false positives
         $lines_clean = array_slice($lines,6);
+        print_r($lines_clean);die;
 
         if (count($lines_clean) > 0)
         {

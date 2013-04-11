@@ -5,7 +5,7 @@ class Cases {
     function beforeRoute($f3){
         if (!$f3->get('SESSION.isLoggedIn')) {
 
-            $f3->error(401);
+            $f3->reroute('/users/login');
         }
     }
 

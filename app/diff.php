@@ -47,6 +47,7 @@ foreach ($result as $r) {
     else //get the new file and do the diff
     {
         $ch = curl_init($r['url']);
+
         $fp = fopen($temp_file, "w");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -66,7 +67,6 @@ foreach ($result as $r) {
         //Now remove the first six items from the lines array; docket master 
         //gives you a new time every time docket is called, creating false positives
         $lines_clean = array_slice($lines,6);
-        print_r($lines_clean);die;
 
         if (count($lines_clean) > 0)
         {

@@ -1,17 +1,18 @@
 DocketMinder
 ===============
 
-This is a tool to help lawyers who practice in New Orleans to keep track of changes to the web-based
-case minute entries provided by the [Orleans Parish Sheriff's Office](http://opcso.org). It uses
-a simple diff call to check for the changes and notify the user via email.  The project
-uses many open source tools including:
+DocketMinder is a tool to help lawyers who practice in New Orleans to keep track of changes to the web-based
+case minute entries provided by the [Orleans Parish Sheriff's Office](http://opcso.org). You can see
+it in action [here](http://loyolalawtech.org/docketminder).  DocketMinder uses a simple diff call 
+to check for the changes and notify the user via email.  The project uses many open source
+tools including:
 
 * [Fat-Free Framework](https://github.com/bcosca/fatfree)
 * [HTML5 Boilerplate](https://github.com/h5bp/html5-boilerplate)
 * [Twitter Bootstrap](https://github.com/twitter/bootstrap.git)
 * [Initializr](http://www.initializr.com/)
 
-DocketMinder was created as a part of the [Litigation and Technology Clinic](http://loyolalawtech.org) of 
+This project was created as a part of the [Litigation and Technology Clinic](http://loyolalawtech.org) of 
 [Loyola College of Law, New Orleans](http://law.loyno.edu).
 
 ##License (MIT)

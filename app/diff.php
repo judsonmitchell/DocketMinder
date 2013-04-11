@@ -74,8 +74,8 @@ foreach ($result as $r) {
             foreach ($lines_clean as &$line) {
                 $line = trim($line,">");
             }
-            
-            $diff = implode("\n",(array_slice($lines_clean,1)));
+
+            $diff = implode("\n",$lines_clean);
 
             //notify user - use postmark app
             $user = $dbh->prepare('select email from docketminder_users where email = ?');

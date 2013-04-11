@@ -56,6 +56,12 @@ foreach ($result as $r) {
         curl_exec($ch);
         if(curl_errno($ch)){
             $errors++;
+            curl_close($ch);
+            fclose($fp);
+            unlink($fp);
+            //At least let user know we are still not tracking case because 
+            //we don't have a base file
+            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
             continue; //just give up on this one for today, go to next case
         }
         curl_close($ch);
@@ -72,7 +78,8 @@ foreach ($result as $r) {
         $errors++;
         $cases_checked++;
 
-        //notify user of error - use postmark app
+        //Notify user - we have a base file now, but nothing to diff
+        //just move on to next case after sending notifications
         notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
     }
     else //get the new file and do the diff
@@ -93,7 +100,7 @@ foreach ($result as $r) {
         curl_close($ch);
         fclose($fp);
 
-        //Remove first 44 lines from tmp file; already removed from the base copy
+        //Remove first 44 lines from tmp file; already removed from the base file
         $tmp_lines = file($temp_file);
         $excerpt = implode('', array_slice($tmp_lines,44)); 
         $fp = fopen($temp_file, "w");
@@ -111,6 +118,7 @@ foreach ($result as $r) {
                 $line = trim($line,">");
             }
 
+            //return a string of the diff
             $diff = implode("\n",(array_slice($lines,1)));
 
             //notify user - use postmark app
@@ -122,12 +130,12 @@ foreach ($result as $r) {
             $subject = "DocketMinder Update: $case_name";
             $message = "DocketMinder has detected an update to the $case_name docket.\n\n"
             . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
-
             $postmark = new Postmark("$postmark_key","$postmark_email");
             $mail = $postmark->to($u['email'])
             ->subject($subject)
             ->plain_message($message)
             ->send();
+
             //update db (tracked date and change date) 
             $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');
             $changes_detected++;
@@ -147,14 +155,15 @@ foreach ($result as $r) {
         $cases_checked++;
     }
 
-    //Find execution time
-    $time_end = microtime(true);
-    $execution_time = ($time_end - $time_start)/60;
-
-    //Write log file
-    $fp = fopen('log', "a");
-    $date = date('n/j/Y g:i A');
-    $message =  "Diff finished on $date in " . round($execution_time,2) . " minutes.  $cases_checked cases checked, $changes_detected changes detected, $errors errors\n";
-    fwrite($fp,$message);
-    fclose($fp);
 }
+
+//Find execution time
+$time_end = microtime(true);
+$execution_time = ($time_end - $time_start)/60;
+
+//Write log file
+$fp = fopen('log', "a");
+$date = date('n/j/Y g:i A');
+$message =  "Diff finished on $date in " . round($execution_time,2) . " minutes.  $cases_checked cases checked, $changes_detected changes detected, $errors errors\n";
+fwrite($fp,$message);
+fclose($fp);

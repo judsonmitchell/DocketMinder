@@ -11,6 +11,23 @@ catch(PDOException $e)
         echo $e->getMessage();
     }
 
+//Remove first 44 lines from the docket; reduce false positives
+function excerpt($id, $path) {
+    $file = $path . $id . ".dk";
+    $lines = file($file);
+    $excerpt = implode('', array_slice($lines,44)); 
+    $fp = fopen($file, "w");
+    fwrite($fp,$excerpt);
+    fclose($fp);
+
+    $tmp_file = $path . $id . "_tmp";
+    $lines = file($tmp_file);
+    $excerpt = implode('', array_slice($lines,44)); 
+    $fp = fopen($tmp_file, "w");
+    fwrite($fp,$excerpt);
+    fclose($fp);
+}
+
 //set some variables for logging
 $cases_checked = 0;
 $changes_detected = 0;
@@ -61,21 +78,25 @@ foreach ($result as $r) {
         curl_close($ch);
         fclose($fp);
 
+        //Remove first 44 lines from tmp file; already removed from the base copy
+        $tmp_lines = file($temp_file);
+        $excerpt = implode('', array_slice($tmp_lines,44)); 
+        $fp = fopen($temp_file, "w");
+        fwrite($fp,$excerpt);
+        fclose($fp);
+
+        //Create an array of diffed lines
         $lines = array();
         exec("diff $file $temp_file",$lines); 
 
-        //Now remove the first six items from the lines array; docket master 
-        //gives you a new time every time docket is called, creating false positives
-        $lines_clean = array_slice($lines,6);
-
-        if (count($lines_clean) > 0)
+        if (count($lines) > 0)
         {
             //now take off the cruft and output a string
-            foreach ($lines_clean as &$line) {
+            foreach ($lines as &$line) {
                 $line = trim($line,">");
             }
 
-            $diff = implode("\n",$lines_clean);
+            $diff = implode("\n",(array_slice($lines,1)));
 
             //notify user - use postmark app
             $user = $dbh->prepare('select email from docketminder_users where email = ?');

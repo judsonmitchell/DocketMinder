@@ -9,3 +9,11 @@ curl_setopt($ch, CURLOPT_HEADER, 0);
 curl_exec($ch);
 curl_close($ch);
 fclose($fp);
+
+//Now chop first 44 lines
+$file = $argv[4] . '/' . $argv[3] . '.dk';
+$lines = file($file);
+$excerpt = implode('', array_slice($lines,44)); 
+$fp = fopen($file, "w");
+fwrite($fp,$excerpt);
+fclose($fp);

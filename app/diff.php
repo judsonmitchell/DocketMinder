@@ -11,21 +11,21 @@ catch(PDOException $e)
         echo $e->getMessage();
     }
 
-//Remove first 44 lines from the docket; reduce false positives
-function excerpt($id, $path) {
-    $file = $path . $id . ".dk";
-    $lines = file($file);
-    $excerpt = implode('', array_slice($lines,44)); 
-    $fp = fopen($file, "w");
-    fwrite($fp,$excerpt);
-    fclose($fp);
+//Notify users of update errors
+function notify_error($dbh,$tracked_by, $name, $url, $postmark_key,$postmark_email){
 
-    $tmp_file = $path . $id . "_tmp";
-    $lines = file($tmp_file);
-    $excerpt = implode('', array_slice($lines,44)); 
-    $fp = fopen($tmp_file, "w");
-    fwrite($fp,$excerpt);
-    fclose($fp);
+    $user = $dbh->prepare('select email from docketminder_users where email = ?');
+    $user->bindParam(1,$tracked_by);
+    $user->execute();
+    $u = $user->fetch();
+    $case_name = ucwords(strtolower($name));
+    $subject = "DocketMinder Error: $case_name";
+    $message = "Because of a server error, DocketMinder has not been able to check the $case_name docket today.\n\nPlease check the docket yourself for any changes: " . $url . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
+    $postmark = new Postmark("$postmark_key","$postmark_email");
+    $mail = $postmark->to($u['email'])
+    ->subject($subject)
+    ->plain_message($message)
+    ->send();
 }
 
 //set some variables for logging
@@ -45,7 +45,7 @@ foreach ($result as $r) {
     $temp_file = "$path_to_files" . $r['id'] . "_tmp";
 
     //File should be created at sign up, but if for some reason
-    //not, do it now.
+    //not (like a timeout), do it now.
     if(!file_exists($file))
     {
         $ch = curl_init($r['url']);
@@ -60,6 +60,20 @@ foreach ($result as $r) {
         }
         curl_close($ch);
         fclose($fp);
+
+        //Remove first 44 lines from the new base file
+        $lines = file($file);
+        $excerpt = implode('', array_slice($lines,44)); 
+        $fp = fopen($file, "w");
+        fwrite($fp,$excerpt);
+        fclose($fp);
+
+        //Increment logging variables
+        $errors++;
+        $cases_checked++;
+
+        //notify user of error - use postmark app
+        notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
     }
     else //get the new file and do the diff
     {
@@ -73,6 +87,7 @@ foreach ($result as $r) {
         if(curl_errno($ch)){
             $errors++;
             $cases_checked++;
+            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
             continue; //give up on this one for today, go to next case
         }
         curl_close($ch);
@@ -126,6 +141,7 @@ foreach ($result as $r) {
         //overwrite the old file with new file
         rename($temp_file, $file);
 
+        //update db
         $update->bindParam(1,$r['id']);
         $update->execute();
         $cases_checked++;

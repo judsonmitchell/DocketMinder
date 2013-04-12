@@ -75,6 +75,13 @@ $(document).ready(function () {
         }
     });
 
+    $('#searcher').keyup(function () {
+        var searchTerm = $(this).val();
+        $.each($('tbody tr'), function () {
+            $(this).css({'color': 'red'});
+            console.log($(this).children().innerText);
+        });
+    });
     //Handle Ajax Errors
     $(document).ajaxError(function (event, jqxhr, settings, exception) {
         if (settings.url.indexOf('opcso')) { //if we are calling the url ../opcso/{{case number}}

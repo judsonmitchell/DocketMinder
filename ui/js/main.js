@@ -76,10 +76,13 @@ $(document).ready(function () {
     });
 
     $('#searcher').keyup(function () {
-        var searchTerm = $(this).val();
-        $.each($('tbody tr'), function () {
-            $(this).css({'color': 'red'});
-            console.log($(this).children().innerText);
+        var needle = $(this).val();
+        //Loop through each row
+        $.each($('tbody td'), function () {
+            var haystack = $(this)[0].innerText;
+            if (haystack.indexOf(needle)) {
+                $(this).css({'color': 'red'});
+            }
         });
     });
     //Handle Ajax Errors

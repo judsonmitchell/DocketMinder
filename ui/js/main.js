@@ -75,6 +75,7 @@ $(document).ready(function () {
         }
     });
 
+    //Search through cases
     $('#searcher').keyup(function () {
         var needle = $(this).val();
         $('tbody tr').show().removeClass('hit');

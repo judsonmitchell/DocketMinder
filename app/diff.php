@@ -131,10 +131,10 @@ foreach ($result as $r) {
             $message = "DocketMinder has detected an update to the $case_name docket.\n\n"
             . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
             $postmark = new Postmark("$postmark_key","$postmark_email");
-            //$mail = $postmark->to($u['email'])
-            //->subject($subject)
-            //->plain_message($message)
-            //->send();
+            $mail = $postmark->to($u['email'])
+            ->subject($subject)
+            ->plain_message($message)
+            ->send();
 
             //update db (tracked date and change date) 
             $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');

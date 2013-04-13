@@ -12,7 +12,7 @@ catch(PDOException $e)
     }
 
 //Notify users of update errors
-function notify_error($dbh,$tracked_by, $name, $url, $postmark_key,$postmark_email){
+function notify_error($dbh,$tracked_by, $name, $url, $error_code,$curl_error,$postmark_key,$postmark_email){
 
     $user = $dbh->prepare('select email from docketminder_users where email = ?');
     $user->bindParam(1,$tracked_by);
@@ -20,7 +20,7 @@ function notify_error($dbh,$tracked_by, $name, $url, $postmark_key,$postmark_ema
     $u = $user->fetch();
     $case_name = ucwords(strtolower($name));
     $subject = "DocketMinder Error: $case_name";
-    $message = "Because of a server error, DocketMinder has not been able to check the $case_name docket today.\n\nPlease check the docket yourself for any changes: " . $url . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
+    $message = "Because of a server error, DocketMinder has not been able to check the $case_name docket today.\n\nPlease check the docket yourself for any changes: " . $url . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder\n\n\n\nError Code: $error_code\n\nCurl Error No:$curl_error";
     $postmark = new Postmark("$postmark_key","$postmark_email");
     $mail = $postmark->to($u['email'])
     ->subject($subject)
@@ -61,7 +61,7 @@ foreach ($result as $r) {
             unlink($fp);
             //At least let user know we are still not tracking case because 
             //we don't have a base file
-            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
+            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],'1', curl_error($ch),$postmark_key,$postmark_email);
             continue; //just give up on this one for today, go to next case
         }
         curl_close($ch);
@@ -80,7 +80,7 @@ foreach ($result as $r) {
 
         //Notify user - we have a base file now, but nothing to diff
         //just move on to next case after sending notifications
-        notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
+        notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],'2', curl_error($ch),$postmark_key,$postmark_email);
     }
     else //get the new file and do the diff
     {
@@ -94,7 +94,7 @@ foreach ($result as $r) {
         if(curl_errno($ch)){
             $errors++;
             $cases_checked++;
-            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],$postmark_key,$postmark_email);
+            notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],'3',curl_error($ch),$postmark_key,$postmark_email);
             continue; //give up on this one for today, go to next case
         }
         curl_close($ch);
@@ -131,10 +131,10 @@ foreach ($result as $r) {
             $message = "DocketMinder has detected an update to the $case_name docket.\n\n"
             . $diff . "\n\nTo view this docket: " . $r['url'] . "\n\nTo change your DockeMinder settings: http://loyolalawtech.org/docketminder";
             $postmark = new Postmark("$postmark_key","$postmark_email");
-            $mail = $postmark->to($u['email'])
-            ->subject($subject)
-            ->plain_message($message)
-            ->send();
+            //$mail = $postmark->to($u['email'])
+            //->subject($subject)
+            //->plain_message($message)
+            //->send();
 
             //update db (tracked date and change date) 
             $update = $dbh->prepare('UPDATE docketminder_cases SET last_tracked = NOW(),last_changed = NOW()  WHERE id = ?');

@@ -30,8 +30,8 @@
                 <true>
                 <repeat group="{{ @CASES }}" value="{{ @item }}">
                 <tr>
-                    <td><a href="{{ @item.url }}" target="_new">{{ @item->number }}</a></td>
-                    <td>{{ @item.name }}</td>
+                    <td><a href="{{ @item.url }}" target="_new" class="searchable">{{ @item->number }}</a></td>
+                    <td class="searchable">{{ @item.name }}</td>
                     <td class="hidden-phone">{{ date('n/j/Y g:i A', strtotime(@item.date_tracked)) }}</td>
                     <td class="hidden-phone">
                     {{ (@item.last_changed === '0000-00-00 00:00:00')?'-':date('n/j/Y g:i A', strtotime(@item.last_changed)) }}

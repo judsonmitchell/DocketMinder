@@ -77,14 +77,17 @@ $(document).ready(function () {
 
     $('#searcher').keyup(function () {
         var needle = $(this).val();
+        $('tbody tr').show().removeClass('hit');
         //Loop through each row
-        $.each($('tbody td'), function () {
+        $.each($('.searchable'), function () {
             var haystack = $(this)[0].innerText;
-            if (haystack.indexOf(needle)) {
-                $(this).css({'color': 'red'});
+            if (haystack.toLowerCase().indexOf(needle) >= 0) {
+                $(this).closest('tr').addClass('hit');
             }
         });
+        $('tbody tr').not('.hit').hide();
     });
+
     //Handle Ajax Errors
     $(document).ajaxError(function (event, jqxhr, settings, exception) {
         if (settings.url.indexOf('opcso')) { //if we are calling the url ../opcso/{{case number}}

@@ -52,7 +52,7 @@ foreach ($result as $r) {
         $fp = fopen($file, "w");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         curl_exec($ch);
         if(curl_errno($ch)){
             $errors++;
@@ -89,7 +89,7 @@ foreach ($result as $r) {
         $fp = fopen($temp_file, "w");
         curl_setopt($ch, CURLOPT_FILE, $fp);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         curl_exec($ch);
         if(curl_errno($ch)){
             $errors++;

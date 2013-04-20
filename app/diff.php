@@ -162,7 +162,8 @@ $time_end = microtime(true);
 $execution_time = ($time_end - $time_start)/60;
 
 //Write log file
-$fp = fopen('log', "a");
+$log_file = $path_to_files . 'log';
+$fp = fopen($log_file, "a");
 $date = date('n/j/Y g:i A');
 $message =  "Diff finished on $date in " . round($execution_time,2) . " minutes.  $cases_checked cases checked, $changes_detected changes detected, $errors errors\n";
 fwrite($fp,$message);

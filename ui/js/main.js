@@ -60,7 +60,7 @@ $(document).ready(function () {
         if (caseNum.length > 5) {
             $.ajax({
                 url: '../opcso' + '/' + caseNum,
-                timeout: 60000,
+                timeout: 120000,
                 beforeSend: function () {
                     $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
                     target.val('Looking up case...');

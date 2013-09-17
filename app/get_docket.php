@@ -6,6 +6,7 @@ $ch = curl_init($url);
 $fp = fopen($argv[4] . '/' . $argv[3] . '.dk', "w");
 curl_setopt($ch, CURLOPT_FILE, $fp);
 curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_TIMEOUT, 120);
 curl_exec($ch);
 curl_close($ch);
 fclose($fp);

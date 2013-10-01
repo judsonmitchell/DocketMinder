@@ -115,7 +115,7 @@ foreach ($result as $r) {
         {
             //now take off the cruft and output a string
             foreach ($lines as &$line) {
-                $line = ltrim($line,">");
+                $line = ltrim($line,"<");
             }
 
             //return a string of the diff

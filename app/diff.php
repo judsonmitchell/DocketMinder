@@ -95,6 +95,8 @@ foreach ($result as $r) {
         if(curl_errno($ch)){
             $errors++;
             $cases_checked++;
+            curl_close($ch);
+            fclose($fp);
             notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],'3',curl_error($ch),$postmark_key,$postmark_email);
         } else {
             //Remove first 44 lines from tmp file; already removed from the base file
@@ -111,7 +113,7 @@ foreach ($result as $r) {
             if (count($lines) > 0) {
                 //now take off the cruft and output a string
                 foreach ($lines as &$line) {
-                    $line = ltrim($line,"<");
+                    $line = ltrim($line,">");
                 }
 
                 //return a string of the diff
@@ -151,8 +153,6 @@ foreach ($result as $r) {
             $cases_checked++;
         }
 
-        curl_close($ch);
-        fclose($fp);
 
     }
 }

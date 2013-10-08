@@ -62,7 +62,6 @@ foreach ($result as $r) {
             //At least let user know we are still not tracking case because 
             //we don't have a base file
             notify_error($dbh,$r['tracked_by'],$r['name'],$r['url'],'1', curl_error($ch),$postmark_key,$postmark_email);
-            continue; //just give up on this one for today, go to next case
         } else {
             curl_close($ch);
             fclose($fp);

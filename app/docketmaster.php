@@ -120,6 +120,33 @@ class DocketMaster  {
 		return $defendantblock;
 	}
 
+    public function getMagDefendantBlock() {
+		
+		// find the start of the defendats block...
+		while (strpos($this->getCurrLine(), "DEFENDANT(S):") === FALSE)  {
+			$this->skipLine(1);
+		}
+		$this->skipLine(2);
+		
+		while (strpos($this->getCurrLine(), '=') === FALSE) {
+			if (!(trim($this->getCurrLine())) == '') {
+				$defendantblock[] = $this->getCurrLine(); 
+				}
+				$this->skipLine(1);
+
+		}
+		return $defendantblock;
+	}
+
+    public function getMagDefendantName($array) {
+        
+        $defendant = new Defendant();
+        $defendant->setFirstName($array[0]);
+        $defendant->setLastName($array[0]);
+        return $defendant;
+
+    }
+
 	public function getEntries() {
 
 		$this->skipLine(2);
@@ -540,8 +567,6 @@ class MCase {
 }
 
 
-
-
 class Entry {
 	protected $minuteClerk = '';
 	protected $entry = '';
@@ -640,5 +665,3 @@ class Entry {
 ////		closedir($dh);
 //	}
 //}
-//
-//

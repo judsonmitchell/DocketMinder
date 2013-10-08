@@ -194,6 +194,7 @@ $(document).ready(function () {
         });
     });
 
+    $('#tip1').popover();
     //Settings
 });
 

@@ -1,7 +1,7 @@
 <?php
 //Script to fetch base copy of the docket master
 
-if ($argv[5] = '1'){
+if ($argv[5] == '1'){
     $url = "http://www.opcso.org/dcktmstr/555555.php?&domagn=" . $argv[2];
 } else {
     $url = "http://www.opcso.org/dcktmstr/666666.php?&docase=" . $argv[2];

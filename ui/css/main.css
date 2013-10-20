@@ -10,6 +10,7 @@ form.new-case{display:none}
 .help-text{ color:#3a87ad;padding: 10px; background-color: #d9edf7;border-color:#bce8f1; border-radius: 10px; text-align:center;}
 .help-text a {color:#3a87ad;text-decoration:none;font-weight:bold;}
 .help-text a:hover {color:#3a87ad;text-decoration:underline;font-weight:bold;}
+.tip-link{font-size:.8em;vertical-align:bottom}
 
 
 

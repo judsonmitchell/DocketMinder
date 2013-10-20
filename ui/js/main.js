@@ -55,11 +55,18 @@ $(document).ready(function () {
     //Case Name Lookup Magic
     $('form input[name="number"]').keyup(function () {
         var userInput = $(this).val();
-        var caseNum = userInput.replace(/\D/g, '');
+        var caseNum = userInput.replace(/(?!^m)\D/ig, '');
         var target = $(this).next();
-        if (caseNum.length > 5) {
+        var lengthVal;
+        if (userInput.charAt(0) === 'm' || userInput.charAt(0) === 'M'){
+            lengthVal = 6;
+        } else {
+            lengthVal = 5;
+        }
+        console.log(lengthVal);
+        if (caseNum.length > lengthVal) {
             $.ajax({
-                url: '../opcso' + '/' + caseNum,
+                url: '../opcso' + '/' + caseNum ,
                 timeout: 120000,
                 beforeSend: function () {
                     $('.message').addClass('alert alert-info').html('Querying OPSO server.  This may take a minute.').show();
@@ -187,6 +194,7 @@ $(document).ready(function () {
         });
     });
 
+    $('#tip1').popover();
     //Settings
 });
 

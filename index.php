@@ -26,15 +26,26 @@ $f3->route('GET|POST /cases/@action','Cases->@action');
 $f3->route('GET /cases/@action/@id','Cases->@action');
 $f3->route('GET /opcso/@casenum',
     function($f3){
-        $DM = new DocketMaster('http://www.opcso.org/dcktmstr/666666.php?&docase=' . $f3->get('PARAMS.casenum'));
-        if ($DM->error){
-            $f3->error(404);
-        }
-        else {
-            $DefendantsBlock = $DM->getDefendantBlock();
-            $defendants = $DM->parseDefendantBlock($DefendantsBlock);
-            echo ucwords(strtolower($defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName()));
-            if (count($defendants) > 1){echo " et. al.";}
+        $case_number = $f3->get('PARAMS.casenum');
+        if (substr($case_number,0,1) == 'm' || substr($case_number,0,1) == 'M'){
+            $DM = new DocketMaster('http://www.opcso.org/dcktmstr/555555.php?&domagn=' . substr($case_number,1));
+            if ($DM->error){
+                $f3->error(404);
+            } else {
+                $DefendantsBlock = $DM->getMagDefendantBlock();
+                $defendants = $DM->getMagDefendantName($DefendantsBlock);
+                echo ucwords(strtolower($defendants->getFirstName() . " " .  $defendants->getLastName()));
+            }
+        } else {
+            $DM = new DocketMaster('http://www.opcso.org/dcktmstr/666666.php?&docase=' . $case_number);
+            if ($DM->error){ 
+                $f3->error(404);
+            } else {
+                $DefendantsBlock = $DM->getDefendantBlock();
+                $defendants = $DM->parseDefendantBlock($DefendantsBlock);
+                echo ucwords(strtolower($defendants[0]->getFirstName() . " " .  $defendants[0]->getLastName()));
+                if (count($defendants) > 1){echo " et. al.";}
+            }
         }
     });
 
